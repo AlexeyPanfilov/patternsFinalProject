@@ -10,15 +10,15 @@ public class TodosTests {
 
     @Test
     @DisplayName("Тест на добавление задачи в список")
-    void addTask () {
+    void addTask() {
         todos.addTask("Task1");
         Assertions.assertEquals("[Task1]", todos.getAllTasks());
     }
 
     @Test
     @DisplayName("Проверка невозможности добавления более 7 задач в список")
-    void maxTasksSize () {
-        for (int i = 0; i < 666; i++) {
+    void maxTasksSize() {
+        for (int i = 0; i < 9; i++) {
             todos.addTask("Task" + i);
         }
         Assertions.assertEquals(7, todos.getTasksList().size());
@@ -26,7 +26,7 @@ public class TodosTests {
 
     @Test
     @DisplayName("Тест на удаление задачи из списка")
-    void removeTask () {
+    void removeTask() {
         todos.addTask("Task");
         todos.addTask("Task1");
         todos.removeTask("Task");

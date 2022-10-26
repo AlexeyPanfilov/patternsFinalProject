@@ -1,12 +1,8 @@
 package ru.netology.javacore;
 
-import com.google.gson.Gson;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class TodoServer {
     protected int port;
@@ -23,14 +19,16 @@ public class TodoServer {
             DataFromClient dataFromClient = new DataFromClient();
             while (true) {
                 try (Socket socket = serverSocket.accept();
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new PrintWriter(socket.getOutputStream())) {
+                     BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                     PrintWriter out = new PrintWriter(socket.getOutputStream())) {
                     String clientsInput = in.readLine();
                     System.out.println(clientsInput);
                     dataFromClient.parseInputData(clientsInput);
                     if (dataFromClient.getType().equals("ADD")) todos.addTask(dataFromClient.getTask());
                     else if (dataFromClient.getType().equals("REMOVE")) todos.removeTask(dataFromClient.getTask());
-                    else {
+                    else if (dataFromClient.getType().equals("RESTORE")) {
+                        // todo later
+                    } else {
                         out.println("Ошибка ввода");
                         continue;
                     }
