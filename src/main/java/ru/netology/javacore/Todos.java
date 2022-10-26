@@ -17,4 +17,8 @@ public class Todos {
     public String getAllTasks() {
         return tasksList.toString();
     }
+
+    public Set<String> getTasksList() {
+        return tasksList;
+    }
 }
