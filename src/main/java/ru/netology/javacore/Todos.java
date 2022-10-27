@@ -5,9 +5,10 @@ import java.util.stream.Collectors;
 
 public class Todos {
     private Set<String> tasksList = new TreeSet<>();
+    private final int TASKSLISTSIZE = 7;
 
     public void addTask(String task) {
-        if (tasksList.size() < 7) tasksList.add(task);
+        if (tasksList.size() < TASKSLISTSIZE) tasksList.add(task);
     }
 
     public void removeTask(String task) {
