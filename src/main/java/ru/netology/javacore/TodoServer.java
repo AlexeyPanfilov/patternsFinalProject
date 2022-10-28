@@ -24,13 +24,20 @@ public class TodoServer {
                     String clientsInput = in.readLine();
                     System.out.println(clientsInput);
                     dataFromClient.parseInputData(clientsInput);
-                    if (dataFromClient.getType().equals("ADD")) todos.addTask(dataFromClient.getTask());
-                    else if (dataFromClient.getType().equals("REMOVE")) todos.removeTask(dataFromClient.getTask());
-                    else if (dataFromClient.getType().equals("RESTORE")) {
-                        // todo later
-                    } else {
-                        out.println("Ошибка ввода");
-                        continue;
+                    switch (dataFromClient.getType()) {
+                        case ("ADD"):
+                            todos.addTask(dataFromClient.getTask());
+                            break;
+                        case ("REMOVE"):
+                            todos.removeTask(dataFromClient.getTask());
+                            break;
+                        case ("RESTORE"):
+                            System.out.println(todos.getTasksList());
+                            todos.restoreTask();
+                            break;
+                        default:
+                            out.println("Ошибка ввода");
+                            break;
                     }
                     System.out.println(todos.getAllTasks());
                     out.println(todos.getAllTasks());

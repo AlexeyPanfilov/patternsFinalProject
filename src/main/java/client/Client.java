@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Client {
@@ -19,20 +18,27 @@ public class Client {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("Введите название задачи");
-            String task = scanner.nextLine();
             System.out.println("Введите ADD для добавления задачи, REM для удаления, RES для изменения");
             String operation = scanner.nextLine().toUpperCase();
             String type = "";
+            String task = "";
+            DataForServer dataForServer = new DataForServer();
             switch (operation) {
                 case ("ADD"):
+                    System.out.println("Введите название задачи для добавления");
+                    task = scanner.nextLine();
                     type = "ADD";
+                    dataForServer = new DataForServer(type, task);
                     break;
                 case ("REM"):
+                    System.out.println("Введите название задачи для удаления");
+                    task = scanner.nextLine();
                     type = "REMOVE";
+                    dataForServer = new DataForServer(type, task);
                     break;
                 case ("RES"):
                     type = "RESTORE";
+                    dataForServer = new DataForServer(type);
                     break;
                 default:
                     System.out.println("Некорректный ввод операции");
@@ -40,7 +46,6 @@ public class Client {
             }
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.create();
-            DataForServer dataForServer = new DataForServer(type, task);
             String requestToServer = gson.toJson(dataForServer);
             System.out.println(requestToServer);
 

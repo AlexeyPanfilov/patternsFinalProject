@@ -40,4 +40,13 @@ public class TodosTests {
         todos.addTask("Task1");
         Assertions.assertEquals("[Task, Task1]", todos.getAllTasks());
     }
+
+//    @Test
+//    @DisplayName("Тест корректности нумерации задач в списке")
+//    void indexOfTasks() {
+//        for (int i = 0; i < 9; i++) {
+//            todos.addTask("Task" + i);
+//        }
+//        Assertions.assertEquals("", todos.getTasksList().entrySet());
+//    }
 }
