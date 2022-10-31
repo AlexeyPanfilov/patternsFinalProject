@@ -5,7 +5,7 @@ import java.util.*;
 public class Todos {
     private final int TASKS_LIST_SIZE = 7;
     private Set<String> tasksList = new TreeSet<>();
-    private Deque<String[]> operationsLog = new ArrayDeque<>();
+    private Deque<CommandToDo> operationsLog = new ArrayDeque<>();
     private boolean isTaskListFull;
 
     public void addTask(String task) {
@@ -39,38 +39,38 @@ public class Todos {
         return TASKS_LIST_SIZE;
     }
 
-    public void log (String type, String task) {
-        String[] logs = {type, task};
-        if (type.equals("ADD") && !isTaskListFull) {
-            operationsLog.push(logs);
-        } else if (type.equals("REMOVE") && tasksList.size() != 0 && tasksList.contains(task)) {
-            operationsLog.push(logs);
+    public void log (CommandToDo whatToDo) {
+        if (whatToDo.getType().equals(IncomingType.ADD) && !isTaskListFull) {
+            operationsLog.push(whatToDo);
+        } else if (whatToDo.getType().equals(IncomingType.REMOVE)
+                && tasksList.size() != 0 && tasksList.contains(whatToDo.getTask())) {
+            operationsLog.push(whatToDo);
         }
-//        for (String[] lineOfLog : operationsLog) {
-//            System.out.println("OperationsLog: " + Arrays.toString(lineOfLog));
+//        for (CommandToDo lineOfLog : operationsLog) {
+//            System.out.println("OperationsLog: " + lineOfLog);
 //        }
     }
 
     public void restoreOperation () {
-        System.out.println("OperationsLog for restore: " + operationsLog.size());
+//        System.out.println("OperationsLog for restore: " + operationsLog.size());
         if (!operationsLog.isEmpty()) {
-            String[] line = operationsLog.peek();
-            String lastType = line[0];
-            String lastTask = line[1];
-            for (String[] lineOfLog : operationsLog) {
-                System.out.println(Arrays.toString(lineOfLog));
-            }
-            System.out.println("LogLastLine: " + Arrays.toString(line));
-            if (lastType.equals("ADD")) {
+            CommandToDo line = operationsLog.peek();
+            IncomingType lastType = line.getType();
+            String lastTask = line.getTask();
+//            for (CommandToDo lineOfLog : operationsLog) {
+//                System.out.println(lineOfLog);
+//            }
+//            System.out.println("LogLastLine: " + line);
+            if (lastType.equals(IncomingType.ADD)) {
                 this.removeTask(lastTask);
-            } else if (lastType.equals("REMOVE")) {
+            } else if (lastType.equals(IncomingType.REMOVE)) {
                 this.addTask(lastTask);
             }
             operationsLog.pop();
         }
     }
 
-    public Deque<String[]> getOperationsLog() {
+    public Deque<CommandToDo> getOperationsLog() {
         return operationsLog;
     }
 }

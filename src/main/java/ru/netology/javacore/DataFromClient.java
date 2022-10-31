@@ -4,12 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class DataFromClient {
-    private String type;
+    private IncomingType type;
     private String task;
 
     public DataFromClient() {}
 
-    public String getType() {
+    public IncomingType getType() {
         return type;
     }
 
@@ -17,13 +17,13 @@ public class DataFromClient {
         return task;
     }
 
-    public String[] parseInputData (String json) {
+    public CommandToDo parseInputData (String json) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
         DataFromClient dataFromClient = gson.fromJson(json, DataFromClient.class);
         this.task = dataFromClient.getTask();
         this.type = dataFromClient.getType();
-        System.out.println("type: " + type);
-        return new String[]{type, task};
+//        System.out.println("type: " + type);
+        return new CommandToDo(type, task);
     }
 }

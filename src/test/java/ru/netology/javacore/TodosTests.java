@@ -59,17 +59,17 @@ public class TodosTests {
     @DisplayName("Loging тест")
     void log() {
         todos.addTask("t1");
-        todos.log("ADD","t1");
-        todos.log("ADD", "t2");
-        todos.log("REMOVE", "t1");
+        todos.log(new CommandToDo(IncomingType.ADD, "t1"));
+        todos.log(new CommandToDo(IncomingType.ADD, "t2"));
+        todos.log(new CommandToDo(IncomingType.REMOVE, "t1"));
         List<String[]> log = new ArrayList<>();
         log.add(new String[]{"ADD", "t1"});
         log.add(new String[]{"ADD", "t2"});
         log.add(new String[]{"REMOVE", "t1"});
         int i = log.size();
-        for (String[] line : todos.getOperationsLog()) {
+        for (CommandToDo line : todos.getOperationsLog()) {
             i--;
-            Assertions.assertEquals(Arrays.toString(log.get(i)), Arrays.toString(line));
+            Assertions.assertEquals(Arrays.toString(log.get(i)), line.toString());
         }
     }
 
@@ -80,11 +80,11 @@ public class TodosTests {
         for (int i = 0; i <= todos.getTASKS_LIST_SIZE(); i++) {
             todos.addTask("Task" + i);
         }
-        todos.log("ADD","t8");
-        todos.log("ADD", "t9");
-        todos.log("REMOVE", "t7");
-        for (String[] line : todos.getOperationsLog()) {
-            Assertions.assertEquals("[REMOVE, t7]", Arrays.toString(line));
+        todos.log(new CommandToDo(IncomingType.ADD, "t8"));
+        todos.log(new CommandToDo(IncomingType.ADD, "t9"));
+        todos.log(new CommandToDo(IncomingType.REMOVE, "t7"));
+        for (CommandToDo line : todos.getOperationsLog()) {
+            Assertions.assertEquals("[REMOVE, t7]", line.toString());
         }
     }
 }
