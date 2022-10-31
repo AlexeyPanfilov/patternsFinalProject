@@ -41,6 +41,7 @@ public class Client {
                     dataForServer = new DataForServer(type);
                     break;
                 default:
+                    dataForServer = new DataForServer(type);
                     System.out.println("Некорректный ввод операции");
                     break;
             }

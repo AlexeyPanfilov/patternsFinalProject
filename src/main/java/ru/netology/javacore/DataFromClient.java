@@ -22,7 +22,7 @@ public class DataFromClient {
         Gson gson = gsonBuilder.create();
         DataFromClient dataFromClient = gson.fromJson(json, DataFromClient.class);
         this.task = dataFromClient.getTask();
-        this.type = dataFromClient.getType().toUpperCase();
+        this.type = dataFromClient.getType();
         System.out.println("type: " + type);
         return new String[]{type, task};
     }
