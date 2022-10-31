@@ -22,17 +22,33 @@ public class TodoServer {
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                      PrintWriter out = new PrintWriter(socket.getOutputStream())) {
                     String clientsInput = in.readLine();
-                    System.out.println(clientsInput);
-                    dataFromClient.parseInputData(clientsInput);
-                    if (dataFromClient.getType().equals("ADD")) todos.addTask(dataFromClient.getTask());
-                    else if (dataFromClient.getType().equals("REMOVE")) todos.removeTask(dataFromClient.getTask());
-                    else if (dataFromClient.getType().equals("RESTORE")) {
-                        // todo later
-                    } else {
-                        out.println("Ошибка ввода");
+//                    System.out.println(clientsInput);
+                    CommandToDo whatToDo = dataFromClient.parseInputData(clientsInput);
+                    if (dataFromClient.getType() == null) {
+                        out.println("Ошибка ввода данных");
                         continue;
                     }
-                    System.out.println(todos.getAllTasks());
+                    switch (dataFromClient.getType()) {
+                        case ADD:
+                            // В данном блоке последовательность выполнения операций имеет логическое значение
+
+                            todos.addTask(dataFromClient.getTask());
+                            todos.log(whatToDo);
+                            break;
+                        case REMOVE:
+                            // В данном блоке последовательность выполнения операций имеет логическое значение
+
+                            todos.log(whatToDo);
+                            todos.removeTask(dataFromClient.getTask());
+                            break;
+                        case RESTORE:
+                            todos.restoreOperation();
+                            break;
+                        default:
+                            out.println("Ошибка ввода данных");
+                            break;
+                    }
+//                    System.out.println(todos.getAllTasks());
                     out.println(todos.getAllTasks());
                 }
             }
